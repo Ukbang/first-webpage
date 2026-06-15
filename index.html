@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방승욱 | AI/Data 강사</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --bg: #f8f9fb;
+      --card: #ffffff;
+      --accent: #4a90d9;
+      --accent-light: #e8f2fc;
+      --text-dark: #1a1f2e;
+      --text-mid: #4a5568;
+      --text-light: #718096;
+      --border: #e2e8f0;
+      --shadow: 0 4px 24px rgba(74,144,217,0.08);
+      --shadow-hover: 0 8px 32px rgba(74,144,217,0.16);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo',
+                   'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 5%;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO + ABOUT ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--white);
+      padding: 100px 5% 60px;
+    }
+    .hero-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 64px;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Profile card */
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
+      animation: fadeUp .7s ease both;
+    }
+    .avatar-wrap {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--accent-light);
+      box-shadow: 0 0 0 4px var(--accent);
+    }
+    .avatar-wrap svg { width: 100%; height: 100%; display: block; }
+    .profile-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text-dark);
+    }
+    .profile-role {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.3px;
+    }
+    .profile-tagline {
+      font-size: 0.92rem;
+      color: var(--text-light);
+      text-align: center;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), #a8d4f5);
+      border-radius: 2px;
+    }
+
+    /* Hero text */
+    .hero-text { animation: fadeUp .7s .15s ease both; }
+    .hero-text h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -1.5px;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .hero-text h1 .highlight { color: var(--accent); }
+    .typing-wrap {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      margin-bottom: 28px;
+      min-height: 1.7em;
+    }
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blink .7s step-end infinite;
+    }
+
+    /* About info cards */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .info-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .info-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .info-card .label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .info-card .value {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .info-card.full { grid-column: span 2; }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(74,144,217,0.35);
+    }
+    .cta-btn:hover {
+      background: #357abd;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(74,144,217,0.4);
+    }
+
+    /* ── SKILLS ── */
+    section { padding: 80px 5%; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text-dark);
+      margin-bottom: 40px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .skill-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+    .skill-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+    .skill-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .skill-card p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--white); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .contact-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s, transform .2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .contact-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .contact-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: var(--accent);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+    .contact-info .c-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .contact-info .c-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 5%;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .hero-text h1 { font-size: 1.8rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .info-card.full { grid-column: span 1; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">방승욱</div>
+    <ul class="nav-links">
+      <li><a href="#hero">소개</a></li>
+      <li><a href="#skills">역량</a></li>
+      <li><a href="#contact">연락처</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO + ABOUT -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+
+    <!-- Profile card -->
+    <div class="profile-card">
+      <div class="avatar-wrap">
+        <!-- SVG Avatar -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background -->
+          <rect width="200" height="200" fill="#e8f2fc"/>
+          <!-- Body -->
+          <ellipse cx="100" cy="210" rx="70" ry="55" fill="#4a90d9"/>
+          <!-- Neck -->
+          <rect x="88" y="128" width="24" height="28" rx="8" fill="#f5cba7"/>
+          <!-- Head -->
+          <ellipse cx="100" cy="110" rx="42" ry="46" fill="#f5cba7"/>
+          <!-- Hair -->
+          <ellipse cx="100" cy="72" rx="42" ry="22" fill="#2c3e50"/>
+          <rect x="58" y="72" width="12" height="30" rx="6" fill="#2c3e50"/>
+          <rect x="130" y="72" width="12" height="30" rx="6" fill="#2c3e50"/>
+          <!-- Ears -->
+          <ellipse cx="58" cy="112" rx="9" ry="11" fill="#f0b27a"/>
+          <ellipse cx="142" cy="112" rx="9" ry="11" fill="#f0b27a"/>
+          <!-- Eyes -->
+          <ellipse cx="84" cy="108" rx="7" ry="8" fill="#fff"/>
+          <ellipse cx="116" cy="108" rx="7" ry="8" fill="#fff"/>
+          <circle cx="85" cy="109" r="4" fill="#2c3e50"/>
+          <circle cx="117" cy="109" r="4" fill="#2c3e50"/>
+          <circle cx="86" cy="107" r="1.5" fill="#fff"/>
+          <circle cx="118" cy="107" r="1.5" fill="#fff"/>
+          <!-- Eyebrows -->
+          <path d="M77 99 Q84 95 91 99" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M109 99 Q116 95 123 99" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Nose -->
+          <ellipse cx="100" cy="122" rx="4" ry="3" fill="#e8a87c"/>
+          <!-- Smile -->
+          <path d="M88 133 Q100 143 112 133" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Glasses -->
+          <rect x="75" y="103" width="22" height="14" rx="7" fill="none" stroke="#4a90d9" stroke-width="2"/>
+          <rect x="103" y="103" width="22" height="14" rx="7" fill="none" stroke="#4a90d9" stroke-width="2"/>
+          <line x1="97" y1="110" x2="103" y2="110" stroke="#4a90d9" stroke-width="2"/>
+          <line x1="58" y1="110" x2="75" y2="110" stroke="#4a90d9" stroke-width="1.5"/>
+          <line x1="125" y1="110" x2="142" y2="110" stroke="#4a90d9" stroke-width="1.5"/>
+          <!-- Collar/Tie -->
+          <path d="M88 156 L100 170 L112 156 Q100 152 88 156Z" fill="#357abd"/>
+        </svg>
+      </div>
+      <div class="profile-name">방승욱</div>
+      <span class="profile-role">AI / Data 강사</span>
+      <div class="divider"></div>
+      <p class="profile-tagline">"데이터가 말하게 하고,<br>AI가 일하게 합니다."</p>
+    </div>
+
+    <!-- Hero text + About info -->
+    <div class="hero-text">
+      <h1>안녕하세요,<br><span class="highlight">방승욱</span>입니다.</h1>
+      <div class="typing-wrap">
+        <span id="typing-text"></span><span class="typing-cursor"></span>
+      </div>
+
+      <div class="about-grid">
+        <div class="info-card">
+          <div class="label">소속</div>
+          <div class="value">AI / Data 강사</div>
+        </div>
+        <div class="info-card">
+          <div class="label">전문 분야</div>
+          <div class="value">AI · 데이터 교육</div>
+        </div>
+        <div class="info-card full">
+          <div class="label">업무 소개</div>
+          <div class="value">AI 및 Data 관련 강의를 진행합니다. 머신러닝, 딥러닝, 데이터 분석 등 실무 중심 교육으로 수강생의 성장을 돕습니다.</div>
+        </div>
+      </div>
+
+      <a href="#contact" class="cta-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.5 3.18 2 2 0 012.48 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.9a16 16 0 006.19 6.19l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        연락하기
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner fade-in">
+    <div class="section-label">Expertise</div>
+    <h2 class="section-title">전문 역량</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🤖</div>
+        <h3>AI / 머신러닝</h3>
+        <p>지도학습·비지도학습·딥러닝까지 실무 사례 중심으로 강의하여 현장 적용력을 높입니다.</p>
+        <div class="tags">
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Deep Learning</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">TensorFlow</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <h3>데이터 분석</h3>
+        <p>데이터 수집·전처리·시각화·인사이트 도출까지 전 과정을 체계적으로 가르칩니다.</p>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Tableau</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🎓</div>
+        <h3>교육 설계</h3>
+        <p>학습자 수준에 맞는 커리큘럼 설계와 실습 중심 수업으로 높은 수강 만족도를 달성합니다.</p>
+        <div class="tags">
+          <span class="tag">커리큘럼 설계</span>
+          <span class="tag">기업 교육</span>
+          <span class="tag">프로젝트 멘토링</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner fade-in">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">연락처</h2>
+    <div class="contact-grid">
+      <a class="contact-card" href="tel:010-1111-2222">
+        <div class="contact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.5 3.18 2 2 0 012.48 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.9a16 16 0 006.19 6.19l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="c-label">전화번호</div>
+          <div class="c-value">010-1111-2222</div>
+        </div>
+      </a>
+      <a class="contact-card" href="mailto:test@gmail.com">
+        <div class="contact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7 10-7"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="c-label">이메일</div>
+          <div class="c-value">test@gmail.com</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 방승욱. All rights reserved.</p>
+</footer>
+
+<script>
+  // Typing animation
+  const phrases = [
+    'AI 및 Data 강의를 진행합니다.',
+    '실무 중심 교육으로 함께 성장합니다.',
+    '데이터로 더 나은 미래를 만듭니다.',
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typing-text');
+
+  function type() {
+    const phrase = phrases[pi];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++ci);
+      if (ci === phrase.length) { deleting = true; setTimeout(type, 2000); return; }
+    } else {
+      el.textContent = phrase.slice(0, --ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 50 : 80);
+  }
+  type();
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
